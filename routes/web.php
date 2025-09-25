@@ -17,7 +17,7 @@ use App\Http\Controllers\Dokter\JadwalPraktekController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/navigasi', function () {

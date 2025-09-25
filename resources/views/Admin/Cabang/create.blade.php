@@ -10,7 +10,7 @@
         <h4>Tambah Data</h4>
     </div>
 
-    <form action="{{ route('cabang.store') }}" method="POST">
+    <form action="{{ route('admin.cabang.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="nama">Nama</label>
@@ -23,7 +23,7 @@
         </div>
 
         <button type="submit" class="btn btn-success mt-3">Simpan</button>
-        <a href="{{ route('cabang.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('admin.cabang.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </body>
 </html>

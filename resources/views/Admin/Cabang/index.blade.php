@@ -1,3 +1,6 @@
+ @extends('layouts.admin-layout')
+
+ @section('konten')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +13,7 @@
         <h4>Data Cabang Klinik Gigiku</h4>
     </div>
     <div class="d-flex">
-        <a href="{{ route('cabang.create') }}" class="ml-auto">
+        <a href="{{ route('admin.cabang.create') }}" class="ml-auto">
             <button class="btn btn-primary">Tambah Cabang</button>
         </a>
     </div>
@@ -30,8 +33,8 @@
                     <td> {{ $cabang->nama }} </td>
                     <td> {{ $cabang->alamat }} </td>
                     <td> 
-                        <form action="{{ route('cabang.destroy', $cabang->id)}}" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                        <a href="{{ route('cabang.edit', $cabang->id) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('admin.cabang.destroy', $cabang->id)}}" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                        <a href="{{ route('admin.cabang.edit', $cabang->id) }}" class="btn btn-warning">Edit</a>
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger">Hapus</button>
@@ -43,3 +46,4 @@
     </table>
 </body>
 </html>
+@endsection

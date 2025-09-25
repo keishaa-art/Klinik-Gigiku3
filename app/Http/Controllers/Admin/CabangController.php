@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Cabang;
+use App\Models\cabang;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -37,7 +37,7 @@ class CabangController extends Controller
 
         Cabang::create($validated);
 
-        return redirect()->route('cabang.index');
+        return redirect()->route('admin.cabang.index');
     }
 
     /**
@@ -70,7 +70,7 @@ class CabangController extends Controller
         $cabang = Cabang::findOrFail($id);
         $cabang->update($validated);
 
-        return redirect()->route('cabang.index');
+        return redirect()->route('admin.cabang.index');
     }
 
     /**
@@ -79,6 +79,6 @@ class CabangController extends Controller
     public function destroy(cabang $cabang)
     {
         $cabang->delete();
-        return redirect()->route('cabang.index');
+        return redirect()->route('admin.cabang.index');
     }
 }

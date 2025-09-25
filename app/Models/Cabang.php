@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-
+// use app\Models\JadwalPraktek;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,4 +16,8 @@ class Cabang extends Model
         'alamat',
     ];
 
+    // public function jadwalPraktek(): HasMany
+    // {
+    //     return $this->hasMany(JadwalPraktek::class);
+    // }
 }

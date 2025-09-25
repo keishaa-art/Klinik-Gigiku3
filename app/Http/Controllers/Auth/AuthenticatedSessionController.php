@@ -16,7 +16,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('auth.login-register');
     }
 
     /**
@@ -28,7 +28,25 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+
+        switch ($user->role) {
+            case 'Admin':
+                return redirect()->route('admin.dashboard');
+            case 'Dokter':
+                return redirect()->route('dokter.dashboard');
+            case 'Farmasi':
+                return redirect()->route('farmasi.dashboard');
+            case 'Pasien':
+                if (is_null($user->email_verified_at)) {
+                    return redirect()->route('verification.otp.form')
+                        ->with('info', 'Silakan verifikasi email dengan kode OTP.');
+                }
+                return redirect()->route('pasien.dashboard');
+            default:
+                Auth::logout();
+                return redirect()->route('login')->withErrors(['email' => 'Role tidak dikenali.']);
+        }
     }
 
     /**

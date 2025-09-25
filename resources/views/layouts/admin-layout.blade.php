@@ -51,7 +51,7 @@
         </div>
 
         <!-- Dokter -->
-        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-rose-300 transition">
+        <a href="{{ route('admin.dokter.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-rose-300 transition {{ request()->routeIs('admin.dokter.*') ? 'bg-rose-200' : '' }}">
           <i class="bi bi-heart-pulse-fill text-lg"></i>
           Dokter
         </a>

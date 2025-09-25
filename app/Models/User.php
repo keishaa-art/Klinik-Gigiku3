@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -18,9 +17,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'role',
+        'email_verification_code',
     ];
 
     /**
@@ -45,4 +45,44 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function redirectTo()
+    {
+        return match ($this->role) {
+            'Admin' => route('admin.dashboard'),
+            'Dokter' => route('dokter.dashboard'),
+            'Farmasi' => route('farmasi.dashboard'),
+            'Pasien' => route('pasien.dashboard'),
+            default => '/',
+        };
+    }
+
+
+    public function jadwalPrakteks()
+    {
+        return $this->hasMany(JadwalPraktek::class);
+    }
+
+    public function cabang()
+    {
+        return $this->belongsTo(Cabang::class, 'cabang_id');
+    }
+
+    // public function dokter()
+    // {
+    //     return $this->hasOne(Dokter::class, 'user_id');
+    // }
+  
+    public function pasien()
+    {
+        return $this->hasOne(Pasien::class);
+    }
+    public function dokter()
+    {
+        return $this->hasOne(Dokter::class);
+    }
+    public function petugasFarmasi()
+    {
+        return $this->hasOne(PetugasFarmasi::class);
+    }
+
 }

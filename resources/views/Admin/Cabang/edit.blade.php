@@ -10,7 +10,7 @@
         <h4>Edit Data</h4>
     </div>
 
-    <form action="{{ route('cabang.update', $cabang->id) }}" method="POST">
+    <form action="{{ route('admin.cabang.update', $cabang->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -25,7 +25,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Update</button>
-        <a href="{{ route('cabang.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('admin.cabang.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </body>
 </html>

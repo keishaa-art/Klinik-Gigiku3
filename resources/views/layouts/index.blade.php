@@ -9,17 +9,38 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="script.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap" rel="stylesheet">
-  <script src="/tailwindConfig.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+  
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="public/js/tailwindConfig.js"></script>
 
 </head>
-<body class="font-sans">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          istok: ["Istok Web", "sans-serif"],
+           playfair: ['Playfair Display', 'serif']
+        },
+      },
+    },
+  }
+</script>
+<body class="font-sans overflow-x-hidden">
+
 
 
 
   <nav class="fixed top-0 w-full bg-gradient-to-r from-[#FFE6E1] to-[#F0BAAF] shadow-md z-50">
-    <div class="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between">
-      <img src="{{ asset('storage/image1.png') }}" alt="Logo" class="h-10" />
-
+    <div class="max-w-[1200px] mx-auto px-4 py-3 flex items-center space-x-2 justify-between">
+     <div class="flex items-center space-x-2">
+  <img src="{{ asset('img/logo.png') }}" alt="Logo" class="h-14" />
+  <span class="font-semibold text-3xl font-['playfair'] text-[#C04C4C]">Gigiku</span>
+</div>
       <button id="menuToggle" class="md:hidden text-[#C04C4C] focus:outline-none text-2xl">
         ☰
       </button>

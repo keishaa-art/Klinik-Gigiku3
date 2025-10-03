@@ -85,7 +85,7 @@ class PemeriksaanController extends Controller
 
     $pemeriksaan->update($validated);
 
-    return redirect()->route('pemeriksaan.index');
+    return redirect()->route('admin.pemeriksaan.index');
     }
 
     /**
@@ -94,6 +94,6 @@ class PemeriksaanController extends Controller
     public function destroy(pemeriksaan $pemeriksaan)
     {
         $pemeriksaan->delete();
-        return redirect()->route('pemeriksaan.index');
+        return redirect()->route('admin.pemeriksaan.index');
     }   
 }

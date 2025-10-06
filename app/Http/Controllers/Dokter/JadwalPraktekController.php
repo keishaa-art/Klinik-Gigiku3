@@ -1,3 +1,4 @@
+jadwalpraktek.controller
 <?php
 
 namespace App\Http\Controllers\Dokter;

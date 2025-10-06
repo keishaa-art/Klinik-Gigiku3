@@ -1,3 +1,4 @@
+jadwalpraktek.model
 <?php
 
 namespace App\Models;

@@ -21,14 +21,12 @@ Route::get('/', function () {
 });
 
 Route::get('/navigasi', function () {
-    return view('pasien.navigasi.navigasi-pasien'); // ini cuman nampilin navigasi minta tolong ubahlagi yaa :)
-});
+    return view('layouts.navigasi-informasi');
+})->name('navigasi');
+
 Route::get('/about', function () {
     return view('about');
 });
-
-
-
 
 Route::get('/1', function () {
     return view('reservasi');

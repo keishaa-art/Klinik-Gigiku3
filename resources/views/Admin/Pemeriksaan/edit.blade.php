@@ -1,46 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Data Pemeriksaan</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Data Pemeriksaan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="d-flex">
-        <h4>Edit Data</h4>
-    </div>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-lg bg-white p-8 rounded-2xl shadow-lg">
 
-    <form action="{{ route('admin.pemeriksaan.update', $pemeriksaan->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+    <h4 class="text-2xl font-bold text-[#C75E5E] text-center mb-6">Edit Data Pemeriksaan</h4>
 
-        <div class="form-group">
-            <label for="nama">Nama</label>
-            <input type="text" name="nama" id="nama" class="form-control" value="{{ $pemeriksaan->nama }}" required>
-        </div>
+    <form action="{{ route('admin.pemeriksaan.update', $pemeriksaan->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+      @csrf
+      @method('PUT')
 
-        <div class="form-group mt-3">
-            <label for="detail">Detail</label>
-            <input type="text" name="detail" id="detail" class="form-control" value="{{ $pemeriksaan->detail }}" required>
-        </div>
+      <!-- Nama -->
+      <div>
+        <label for="nama" class="block text-sm font-medium text-gray-700 mb-2">Nama</label>
+        <input type="text" name="nama" id="nama"
+          value="{{ $pemeriksaan->nama }}"
+          class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 focus:bg-white focus:border-[#C75E5E] focus:ring-2 focus:ring-[#F0BAAF] transition"
+          required>
+      </div>
 
-        <div class="form-group mt-3">
-            <label for="harga">Harga</label>
-            <input type="number" name="harga" id="harga" class="form-control" value="{{ $pemeriksaan->harga }}" required>
-        </div>
+      <!-- Detail -->
+      <div>
+        <label for="detail" class="block text-sm font-medium text-gray-700 mb-2">Detail</label>
+        <input type="text" name="detail" id="detail"
+          value="{{ $pemeriksaan->detail }}"
+          class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 focus:bg-white focus:border-[#C75E5E] focus:ring-2 focus:ring-[#F0BAAF] transition"
+          required>
+      </div>
 
-        <div class="form-group mt-3">
-            <label for="gambar">Gambar</label>
-            <input type="file" name="gambar" id="gambar" class="form-control" accept="image/*">
-            @if ($pemeriksaan->gambar)
-                <div class="mt-2">
-                    <img src="{{ asset('storage/' . $pemeriksaan->gambar) }}" alt="Gambar Pemeriksaan" style="max-height: 150px;">
-                </div>
-            @endif
-        </div>
+      <!-- Harga -->
+      <div>
+        <label for="harga" class="block text-sm font-medium text-gray-700 mb-2">Harga</label>
+        <input type="number" name="harga" id="harga"
+          value="{{ $pemeriksaan->harga }}"
+          class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 focus:bg-white focus:border-[#C75E5E] focus:ring-2 focus:ring-[#F0BAAF] transition"
+          required>
+      </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Update</button>
-        <a href="{{ route('admin.pemeriksaan.index') }}" class="btn btn-secondary">Kembali</a>
+      <!-- Gambar -->
+      <div>
+        <label for="gambar" class="block text-sm font-medium text-gray-700 mb-2">Gambar</label>
+        <input type="file" name="gambar" id="gambar" accept="image/*"
+          class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 focus:bg-white focus:border-[#C75E5E] focus:ring-2 focus:ring-[#F0BAAF] transition">
+
+        @if ($pemeriksaan->gambar)
+          <div class="mt-3">
+            <img src="{{ asset('storage/' . $pemeriksaan->gambar) }}" alt="Gambar Pemeriksaan" class="max-h-40 rounded-md border">
+          </div>
+        @endif
+      </div>
+
+      <!-- Tombol -->
+      <div class="flex justify-between items-center pt-4">
+        <a href="{{ route('admin.pemeriksaan.index') }}"
+          class="px-5 py-2 rounded-lg bg-gray-400 hover:bg-gray-500 text-white font-medium transition">
+          Kembali
+        </a>
+        <button type="submit"
+          class="px-5 py-2 rounded-lg bg-[#C75E5E] hover:bg-[#a74b4b] text-white font-medium transition">
+          Update
+        </button>
+      </div>
     </form>
+  </div>
 </body>
 </html>

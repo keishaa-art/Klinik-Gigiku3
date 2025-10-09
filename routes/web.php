@@ -31,15 +31,17 @@ Route::get('/about', function () {
 
 
 Route::get('/1', function () {
-    return view('reservasi');
+    return view('Reservatation/cabang');
 });
 Route::get('/2', function () {
-    return view('jadwal');
+    return view('Reservatation/dokter');
 });
 Route::get('/3', function () {
-    return view('keluhan');
+    return view('Reservatation/jadwal');
 });
-
+Route::get('/4', function () {
+    return view('Reservatation/keluhan');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

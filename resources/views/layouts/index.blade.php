@@ -50,7 +50,7 @@
         <a href="#" class="text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">About</a>
         <a href="reservasi" class="text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Reservasi</a>
         <a href="#" class="text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Navigasi</a>
-        <button id="loginBtn" class="ml-4 bg-white text-[#C04C4C] font-semibold px-4 py-1 rounded-lg shadow hover:bg-[#FFE6E1] transition">
+        <button id="loginBtn" class="ml-4 bg-white text-[#C04C4C] font-semibold px-4 py-1 rounded-lg shadow hover:bg-[#FFE6E1] transition" onclick="window.location.href='/login'">
           Login
         </button>
         <img id="profilePic" src="https://i.pravatar.cc/30" alt="Profile" class="hidden w-8 h-8 rounded-full cursor-pointer ml-4" />

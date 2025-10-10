@@ -29,13 +29,16 @@ Route::get('/about', function () {
 });
 
 Route::get('/1', function () {
-    return view('reservasi');
+    return view('reservasi/cabang');
 });
 Route::get('/2', function () {
-    return view('jadwal');
+    return view('reservasi/doktor');
 });
 Route::get('/3', function () {
-    return view('keluhan');
+    return view('reservasi/jadwal');
+});
+Route::get('/4', function () {
+    return view('reservasi/reservasi');
 });
 
 

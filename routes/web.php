@@ -29,17 +29,18 @@ Route::get('/about', function () {
 });
 
 Route::get('/1', function () {
-    return view('Reservatation/cabang');
+    return view('reservasi/cabang');
 });
 Route::get('/2', function () {
-    return view('Reservatation/dokter');
+    return view('reservasi/doktor');
 });
 Route::get('/3', function () {
-    return view('Reservatation/jadwal');
+    return view('reservasi/jadwal');
 });
 Route::get('/4', function () {
-    return view('Reservatation/keluhan');
+    return view('reservasi/reservasi');
 });
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -125,4 +126,5 @@ Route::middleware(['auth', 'PasienMiddleware', 'ensure.otp.verified'])->prefix('
 
 
 
-require __DIR__ . '/auth.php';
+require _DIR_ . '/auth.php';
+*

@@ -7,10 +7,9 @@
     <h2 class="font-['Istok_Web'] font-semibold text-[#C04C4C]">JL. raden Kartini No.61/63
         <p>Kecamatan Kejaksan Kota Cirebon</p> 
         <p>Jawa Barat Indonesia</p> 
-<div class="w-full bg-gradient-to-r from-[#FFE6E1] to-[#F0BAAF] shadow-md z-50 mt-[50px] p-8 min-h-[200px]">
-  <h1 class="font-['Istok_Web'] font-semibold text-4xl text-[#C04C4C]">Pilih Jadwal</h1>
+        <h1 class="font-['Istok_Web'] font-semibold text-4xl z-50 mt-[10px] text-[#C04C4C]">Pilih Jadwal Reservasi :</h1>
 </div>
- </div>
+
 
 <!-- Content -->
 <div class="max-w-4xl mx-auto px-4 py-6">

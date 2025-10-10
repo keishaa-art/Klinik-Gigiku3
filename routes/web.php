@@ -126,4 +126,5 @@ Route::middleware(['auth', 'PasienMiddleware', 'ensure.otp.verified'])->prefix('
 
 
 
-require __DIR__ . '/auth.php';
+require _DIR_ . '/auth.php';
+*

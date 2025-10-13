@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('jadwalpraktek', JadwalPraktekController::class);
 });
 
+
 //! Admin Routes
 Route::middleware(['auth', 'AdminMiddleware'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
@@ -116,6 +117,8 @@ Route::middleware(['auth', 'DokterMiddleware'])->prefix('dokter')->name('dokter.
 Route::middleware(['auth', 'FarmasiMiddleware'])->prefix('farmasi')->name('farmasi.')->group(function () {
     Route::get('/', [FarmasiController::class, 'index'])->name('dashboard');
     Route::resource('obat', ObatController::class);
+    // Route::get('/dashboard',[FarmasiController::class, 'index']);
+
 });
 
 //! Pasien Routes

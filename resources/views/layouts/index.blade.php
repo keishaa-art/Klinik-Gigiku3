@@ -48,7 +48,7 @@
       <div id="navLinks" class="hidden md:flex md:items-center md:space-x-8">
         <a href="/" class="text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Home</a>
         <a href="#" class="text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">About</a>
-        <a href="reservasi" class="text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Reservasi</a>
+        <a href="1" class="text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Reservasi</a>
         <a href="{{ route('navigasi') }}" class="text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Navigasi</a>
         <button id="loginBtn" class="ml-4 bg-white text-[#C04C4C] font-semibold px-4 py-1 rounded-lg shadow hover:bg-[#FFE6E1] transition">
           Login
@@ -60,7 +60,7 @@
     <div id="mobileMenu" class="md:hidden hidden px-4 pb-4 space-y-3">
       <a href="/" class="block text-[#C04C4C] font-semibold">Home</a>
       <a href="#" class="block text-[#C04C4C] font-semibold">About</a>
-      <a href="resevasi" class="block text-[#C04C4C] font-semibold">Reservasi</a>
+      <a href="1" class="block text-[#C04C4C] font-semibold">Reservasi</a>
       <a href="#" class="block text-[#C04C4C] font-semibold">Navigasi</a>
       <button id="mobileLoginBtn" class="w-full bg-white text-[#C04C4C] font-semibold py-1 rounded-lg shadow hover:bg-[#FFE6E1] transition">
         Login

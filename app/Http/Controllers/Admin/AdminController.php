@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Dokter;
+use App\Models\Pasien;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
@@ -12,7 +15,20 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        $totalPasien = Pasien::count();
+        $totalDokter = Dokter::count();
+
+        $totalPengunjung = 12;
+
+        // Hanya ambil user dengan role Dokter & Pasien
+        $accounts = User::with(['pasien', 'dokter'])->whereIn('role', ['Dokter', 'Pasien'])->get();
+
+        return view('admin.dashboard', compact(
+            'totalPasien',
+            'totalDokter',
+            'totalPengunjung',
+            'accounts'
+        ));
     }
 
     /**

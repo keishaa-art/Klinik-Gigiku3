@@ -22,26 +22,31 @@ Route::get('/', function () {
 });
 
 Route::get('/navigasi', function () {
-    return view('pasien.navigasi.navigasi-pasien'); // ini cuman nampilin navigasi minta tolong ubahlagi yaa :)
-});
+    return view('layouts.navigasi-informasi');
+})->name('navigasi');
+
 Route::get('/about', function () {
     return view('about');
 });
+
 
 // Route::get('/rekam', function () {
 //     return view('admin/rekam/index');
 // });
 
+
 Route::get('/1', function () {
-    return view('reservasi');
+    return view('Reservatation/cabang');
 });
 Route::get('/2', function () {
-    return view('jadwal');
+    return view('Reservatation/dokter');
 });
 Route::get('/3', function () {
-    return view('keluhan');
+    return view('Reservatation/jadwal');
 });
-
+Route::get('/4', function () {
+    return view('Reservatation/keluhan');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

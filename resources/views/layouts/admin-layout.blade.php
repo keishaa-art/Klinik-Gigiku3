@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,45 +9,51 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
+
 <body class="bg-gray-100 font-sans">
   <div class="flex h-screen">
-    
+
     <!-- Sidebar -->
     <aside class="w-64 bg-[#F0BAAF] flex flex-col">
       <div class="p-6 text-2xl font-bold border-b text-[#C75E5E] border-red-200">GIGIKU</div>
-      
+
       <nav class="flex-1 p-4 space-y-3 text-[#A85050]">
-        
+
         <!-- Home -->
-        <a href="{{ route('admin.dashboard') }}" 
-           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-rose-300 transition">
+        <a href="{{ route('admin.dashboard') }}"
+          class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-rose-300 transition">
           <i class="bi bi-house-door-fill text-lg"></i>
           Home
         </a>
 
         <!-- Dropdown Admin -->
         <div>
-          <button onclick="toggleSubMenu()" 
-                  class="w-full flex justify-between items-center px-3 py-2 rounded-lg hover:bg-red-300 transition">
-              <span class="flex items-center gap-2">
-                <i class="bi bi-gear-fill text-lg"></i>
-                Admin
-              </span>
-              <i id="arrowIcon" class="bi bi-chevron-down text-sm transition-transform"></i>
+          <button onclick="toggleSubMenu()"
+            class="w-full flex justify-between items-center px-3 py-2 rounded-lg hover:bg-red-300 transition">
+            <span class="flex items-center gap-2">
+              <i class="bi bi-gear-fill text-lg"></i>
+              Admin
+            </span>
+            <i id="arrowIcon" class="bi bi-chevron-down text-sm transition-transform"></i>
           </button>
 
           <!-- Sub menu -->
           <div id="subMenu" class="hidden ml-6 mt-2 space-y-2">
-              <a href="{{ route('admin.pemeriksaan.index') }}" 
-                 class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-100">
-                <i class="bi bi-clipboard-check-fill text-lg"></i>
-                Pemeriksaan
-              </a>
-              <a href="{{ route('admin.cabang.index') }}" 
-                 class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-100">
-                <i class="bi bi-building-fill text-lg"></i>
-                Cabang
-              </a>
+            <a href="{{ route('admin.pemeriksaan.index') }}"
+              class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-100">
+              <i class="bi bi-clipboard-check-fill text-lg"></i>
+              Pemeriksaan
+            </a>
+            <a href="{{ route('admin.cabang.index') }}"
+              class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-100">
+              <i class="bi bi-building-fill text-lg"></i>
+              Cabang
+            </a>
+            <a href="{{ route('admin.rekam.index') }}"
+              class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-100">
+              <i class="bi bi-journal-medical text-lg"></i>
+              Rekam Medis
+            </a>
           </div>
         </div>
 
@@ -89,11 +96,12 @@
 
   <script>
     function toggleSubMenu() {
-        let menu = document.getElementById("subMenu");
-        let arrow = document.getElementById("arrowIcon");
-        menu.classList.toggle("hidden");
-        arrow.classList.toggle("rotate-180");
+      let menu = document.getElementById("subMenu");
+      let arrow = document.getElementById("arrowIcon");
+      menu.classList.toggle("hidden");
+      arrow.classList.toggle("rotate-180");
     }
   </script>
 </body>
+
 </html>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CabangController;
 use App\Http\Controllers\Farmasi\ObatController;
 use App\Http\Controllers\Dokter\DokterController;
 use App\Http\Controllers\Pasien\PasienController;
+use App\Http\Controllers\Pasien\ReservasiController;
 use App\Http\Controllers\Farmasi\FarmasiController;
 use App\Http\Controllers\Admin\DataDokterController;
 use App\Http\Controllers\Admin\PemeriksaanController;
@@ -107,6 +108,7 @@ Route::middleware('auth')->group(function () {
     
 });
 
+
 //! Admin Routes
 Route::middleware(['auth', 'AdminMiddleware'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
@@ -125,11 +127,14 @@ Route::middleware(['auth', 'DokterMiddleware'])->prefix('dokter')->name('dokter.
 Route::middleware(['auth', 'FarmasiMiddleware'])->prefix('farmasi')->name('farmasi.')->group(function () {
     Route::get('/', [FarmasiController::class, 'index'])->name('dashboard');
     Route::resource('obat', ObatController::class);
+    // Route::get('/dashboard',[FarmasiController::class, 'index']);
+
 });
 
 //! Pasien Routes
 Route::middleware(['auth', 'PasienMiddleware', 'ensure.otp.verified'])->prefix('pasien')->name('pasien.')->group(function () {
     Route::get('/', [PasienController::class, 'index'])->name('dashboard');
+    Route::resource('reservasi', ReservasiController::class);
 });
 
 

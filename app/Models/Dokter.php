@@ -20,6 +20,7 @@ class dokter extends Model
         'no_telepon',
         'alamat',
         'cabang_id',
+        'foto',
     ];
 
     public function user()
@@ -31,5 +32,6 @@ class dokter extends Model
     {
         return $this->belongsTo(Cabang::class);
     }
+    
 
 }

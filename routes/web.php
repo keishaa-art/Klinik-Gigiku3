@@ -105,7 +105,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('jadwalpraktek', JadwalPraktekController::class);
-    
+
 });
 
 
@@ -121,6 +121,8 @@ Route::middleware(['auth', 'AdminMiddleware'])->prefix('admin')->name('admin.')-
 //! Dokter Routes
 Route::middleware(['auth', 'DokterMiddleware'])->prefix('dokter')->name('dokter.')->group(function () {
     Route::get('/', [DokterController::class, 'index'])->name('dashboard');
+    Route::resource('jadwalpraktek', JadwalPraktekController::class);
+    Route::resource('profile', DokterController::class);
 });
 
 //! Farmasi Routes

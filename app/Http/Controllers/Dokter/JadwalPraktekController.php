@@ -8,7 +8,7 @@ use App\Models\Cabang;
 use App\Models\JadwalPraktek;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class JadwalPraktekController extends Controller
 {
@@ -21,11 +21,14 @@ class JadwalPraktekController extends Controller
                 ->where('user_id', auth()->id())
                 ->get();
         }
-        return view('Dokter.Jadwal.index', compact('jadwal'));
+        $jadwalpraktek = jadwalpraktek::get();
+        return view('dokter.index', compact('jadwalpraktek'));
     }
 
     public function create()
     {
+        $cabangs = Cabang::all();
+        
         $user = auth()->user();
 
         if ($user->role == 'admin') {
@@ -34,45 +37,102 @@ class JadwalPraktekController extends Controller
             $dokters = null; // dokter ga pilih, otomatis ambil dirinya
         }
 
-        return view('Dokter.Jadwal.create', compact('dokters', 'user'));
+        return view('dokter.Jadwal.create', compact('dokters', 'user', 'cabangs'));
     }
 
     public function store(Request $request)
-    {
-        $user = auth()->user();
+{
 
-        if ($user->role == 'admin') {
-            $request->validate([
-                'dokter_id' => 'required|exists:dokters,id',
-                'tanggal'   => 'required|date',
-                'jam'       => 'required',
-            ]);
+    $validated = $request->validate([
+        'user_id'   => 'exists:users,id',
+        'tanggal'   => 'required|date',
+        'jam'       => 'required|string',
+        'hari'       => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+        'cabang_id' => 'required|exists:cabangs,id',
+    ]);
+    $user = auth()->user();
 
-            $dokter   = Dokter::findOrFail($request->dokter_id);
-            $userId   = $dokter->user_id;
-            $dokterId = $dokter->id;
-            $cabangId = $dokter->cabang_id;
-        } else {
-            $request->validate([
-                'tanggal' => 'required|date',
-                'jam'     => 'required',
-            ]);
+    // Validasi input dari form
 
-            $userId   = $user->id;
-            $dokter   = Dokter::where('user_id', $userId)->firstOrFail();
-            $dokterId = $dokter->id;
-            $cabangId = $dokter->cabang_id;
-        }
+    // Ambil dokter berdasarkan user yang login
+    // $dokter = Dokter::where('user_id', $user->id)->firstOrFail();
 
-        JadwalPraktek::create([
-            'user_id'   => $userId,
-            'dokter_id' => $dokterId,
-            'cabang_id' => $cabangId,
-            'tanggal'   => $request->tanggal,
-            'jam'       => $request->jam,
-        ]);
+    // Simpan ke database
+    JadwalPraktek::create([
+        'user_id'   => Auth::user()->id,
+        'tanggal'   => $validated['tanggal'],
+        'jam'       => $validated['jam'],
+        'hari'       => $validated['hari'],
+        'cabang_id' => $validated['cabang_id'],
+    ]);
 
-        return redirect()->route('jadwalpraktek.index')
-            ->with('success', 'Jadwal berhasil ditambahkan');
+    return redirect()->route('dokter.jadwalpraktek.index')
+        ->with('success', 'Jadwal berhasil ditambahkan!');
+
+
+}
+
+public function edit($id)
+{
+    $jadwal = JadwalPraktek::with('cabang')->findOrFail($id);
+
+    // Jika bukan admin, pastikan hanya bisa edit jadwal miliknya
+    if (Auth::user()->role !== 'admin' && $jadwal->user_id !== Auth::id()) {
+        return redirect()->route('dokter.jadwalpraktek.index')
+            ->with('error', 'Anda tidak memiliki izin untuk mengedit jadwal ini.');
     }
+
+    $cabangs = Cabang::all(); // hanya referensi, meski tidak bisa diubah
+
+    return view('dokter.jadwal.edit', compact('jadwal', 'cabangs'));
+}
+
+
+public function update(Request $request, $id)
+{
+    $jadwal = JadwalPraktek::findOrFail($id);
+
+    // Cegah user lain mengedit jadwal milik orang lain
+    if (Auth::user()->role !== 'admin' && $jadwal->user_id !== Auth::id()) {
+        return redirect()->route('dokter.jadwalpraktek.index')
+            ->with('error', 'Anda tidak memiliki izin untuk memperbarui jadwal ini.');
+    }
+
+    // Validasi input
+    $validated = $request->validate([
+        'hari' => 'required|string',
+        'tanggal' => 'required|date',
+        'jam' => 'required|string',
+        'cabang_id' => 'required|exists:cabangs,id',
+    ], [
+        'hari.required' => 'Hari wajib diisi.',
+        'tanggal.required' => 'Tanggal wajib diisi.',
+        'jam.required' => 'Jam wajib diisi.',
+        'cabang_id.required' => 'Cabang wajib diisi.',
+    ]);
+
+    // Update data
+    $jadwal->update($validated);
+
+    return redirect()
+        ->route('dokter.jadwalpraktek.index')
+        ->with('success', '✅ Jadwal pemeriksaan berhasil diperbarui!');
+}
+
+
+public function destroy($id)
+{
+    $jadwal = JadwalPraktek::findOrFail($id);
+    
+    // Jika bukan admin, pastikan hanya bisa hapus jadwal miliknya sendiri
+    if (Auth::user()->role !== 'admin' && $jadwal->user_id !== Auth::id()) {
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus jadwal ini.');
+    }
+    
+    $jadwal->delete();
+    
+    return redirect()->route('dokter.jadwalpraktek.index')
+    ->with('success', 'Jadwal berhasil dihapus.');
+}
+
 }

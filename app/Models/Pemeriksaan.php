@@ -13,4 +13,10 @@ class pemeriksaan extends Model
         'harga',
         'gambar'
     ];
+
+    public function rekamMedis()
+    {
+        return $this->hasMany(RekamMedis::class);
+    }   
 }
+

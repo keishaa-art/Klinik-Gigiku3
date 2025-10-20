@@ -37,7 +37,7 @@ class ObatController extends Controller
             'kandungan' => 'required',
             'bentuk_obat' => 'required',
             'satuan' => 'required',
-            'pieces' => 'required',
+            'pieces' => 'required', 
             'tgl_produksi' => 'required',
             'tgl_kadaluarsa' => 'required',
         ]);

@@ -25,6 +25,10 @@ Route::get('/navigasi', function () {
     return view('layouts.navigasi-informasi');
 })->name('navigasi');
 
+Route::get('/Profile', function () {
+    return view('layouts.profile-pasien');
+})->name('Profile');                        // minta tolong backend konfigurasiin ya :)
+
 Route::get('/about', function () {
     return view('about');
 });

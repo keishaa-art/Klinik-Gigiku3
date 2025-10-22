@@ -1,4 +1,4 @@
-@extends('layouts.admin-layout')
+@extends('layouts.dokter-layout')
 
 @section('konten')
 <div class="container mt-4">

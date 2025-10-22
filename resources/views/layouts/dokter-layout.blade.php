@@ -129,10 +129,10 @@
 
         <a href="{{ route('dokter.jadwalpraktek.index')}}" class="flex items-center gap-3 p-3 hover:bg-white/40">
            <i class='bx  bx-calendar-alt'  ></i> 
-            Jadwal Pemeriksaan
+            Jadwal Praktek
         </a>
 
-        <a href="/" class="flex items-center gap-3 p-3 hover:bg-white/40">
+        <a href="{{ route('dokter.rekam.index')}}" class="flex items-center gap-3 p-3 hover:bg-white/40">
           <i class='bx  bx-history'  ></i> 
             Rekam Medis
         </a>

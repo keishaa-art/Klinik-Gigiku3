@@ -17,26 +17,38 @@ class RekamMedisController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $role = strtolower($user->role);
+        $RekamMedis = collect(); // biar gak undefined kalau ada error aneh
 
-        // Filtering berdasarkan role
-        if (strtolower($user->role) === 'admin') {
-            $RekamMedis = RekamMedis::with(['pemeriksaan', 'pasien', 'dokter'])->latest()->get();
-        } elseif (strtolower($user->role) === 'dokter') {
-            $RekamMedis = RekamMedis::where('dokter_id', $user->id)
-                ->with(['pemeriksaan', 'pasien'])
-                ->latest()
-                ->get();
-        } elseif (strtolower($user->role) === 'pasien') {
-            $RekamMedis = RekamMedis::where('pasien_id', $user->id)
-                ->with(['pemeriksaan', 'dokter'])
-                ->latest()
-                ->get();
-        } else {
-            abort(403, 'Akses ditolak.');
+        switch ($role) {
+            case 'admin':
+                $RekamMedis = RekamMedis::with(['pemeriksaan', 'pasien', 'dokter'])
+                    ->latest()
+                    ->get();
+                $view = 'Admin.Rekam.index';
+                break;
+
+            case 'dokter':
+                $RekamMedis = RekamMedis::where('id_dokter', $user->id)
+                    ->with(['pemeriksaan', 'pasien'])
+                    ->latest()
+                    ->get();
+                $view = 'Dokter.Rekam.index';
+                break;
+
+            case 'pasien':
+                $RekamMedis = RekamMedis::where('id_pasien', $user->id)
+                    ->with(['pemeriksaan', 'dokter'])
+                    ->latest()
+                    ->get();
+                $view = 'Pasien.Rekam.index';
+                break;
+
+            default:
+                abort(403, 'Akses ditolak.');
         }
 
-        // View tunggal dengan folder "Admin/Rekam"
-        return view('Admin.Rekam.index', compact('RekamMedis'));
+        return view($view, compact('RekamMedis'));
     }
 
     /**
@@ -45,15 +57,18 @@ class RekamMedisController extends Controller
     public function create()
     {
         $user = Auth::user();
+        $role = strtolower($user->role);
 
-        if ($user->role !== 'dokter') {
+        // Cuma dokter yang boleh tambah rekam medis
+        if ($role !== 'dokter') {
             abort(403, 'Hanya dokter yang dapat menambah rekam medis.');
         }
 
         $pemeriksaans = Pemeriksaan::all();
         $pasiens = User::where('role', 'pasien')->get();
 
-        return view('Admin.Rekam.create', compact('pemeriksaan', 'pasien'));
+        // View dipisah berdasarkan folder role
+        return view('Dokter.Rekam.create', compact('pemeriksaans', 'pasiens'));
     }
 
     /**
@@ -62,12 +77,13 @@ class RekamMedisController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        $role = strtolower($user->role);
 
-        if ($user->role !== 'dokter') {
+        if ($role !== 'dokter') {
             abort(403, 'Hanya dokter yang dapat menambah rekam medis.');
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'pasien_id' => 'required|exists:users,id',
             'pemeriksaan_id' => 'required|exists:pemeriksaans,id',
             'diagnosa' => 'required|string|max:255',
@@ -76,15 +92,16 @@ class RekamMedisController extends Controller
         ]);
 
         RekamMedis::create([
-            'pasien_id' => $request->pasien_id,
-            'dokter_id' => $user->id,
-            'pemeriksaan_id' => $request->pemeriksaan_id,
-            'diagnosa' => $request->diagnosa,
-            'tindakan' => $request->tindakan,
-            'tanggal' => $request->tanggal,
+            'id_pasien' => $validated['pasien_id'],
+            'id_dokter' => $user->id,
+            'pemeriksaan_id' => $validated['pemeriksaan_id'],
+            'diagnosa' => $validated['diagnosa'],
+            'tindakan' => $validated['tindakan'],
+            'tanggal' => $validated['tanggal'],
         ]);
 
-        return redirect()->route('admin.rekam.index')->with('success', 'Rekam medis berhasil ditambahkan.');
+        return redirect()->route('dokter.rekam.index')
+            ->with('success', 'Rekam medis berhasil ditambahkan.');
     }
 
     /**
@@ -92,16 +109,26 @@ class RekamMedisController extends Controller
      */
     public function show($id)
     {
-        $rekam = RekamMedis::with(['pemeriksaan', 'pasien', 'dokter'])->findOrFail($id);
         $user = Auth::user();
+        $role = strtolower($user->role);
 
-        // Hak akses
+        $rekam = RekamMedis::with(['pemeriksaan', 'pasien', 'dokter'])->findOrFail($id);
+
+        // Hak akses: admin, dokter pemilik data, atau pasien pemilik data
         if (
-            $user->role === 'admin' ||
-            ($user->role === 'dokter' && $rekam->dokter_id === $user->id) ||
-            ($user->role === 'pasien' && $rekam->pasien_id === $user->id)
+            $role === 'admin' ||
+            ($role === 'dokter' && $rekam->id_dokter === $user->id) ||
+            ($role === 'pasien' && $rekam->id_pasien === $user->id)
         ) {
-            return view('Admin.Rekam.show', compact('RekamMedis'));
+            // View berdasarkan role
+            $view = match ($role) {
+                'admin' => 'Admin.Rekam.show',
+                'dokter' => 'Dokter.Rekam.show',
+                'pasien' => 'Pasien.Rekam.show',
+                default => abort(403, 'Akses ditolak.'),
+            };
+
+            return view($view, compact('rekam'));
         }
 
         abort(403, 'Akses ditolak.');

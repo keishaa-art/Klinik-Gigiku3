@@ -1,72 +1,71 @@
-@extends('layouts.app')
-
-@section('content')
 <div class="container">
-    <h2 class="mb-4">Daftar Reservasi Saya</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Riwayat Reservasi Saya</h2>
+        <a href="{{ route('pasien.reservasi.create') }}" class="btn btn-primary">
+            Buat Reservasi Baru
+        </a>
+    </div>
 
-    {{-- Tampilkan pesan sukses --}}
-    @if (session('success'))
+    @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    {{-- Jika belum ada reservasi --}}
-    @if ($reservasis->isEmpty())
-        <div class="alert alert-info">
-            Belum ada reservasi yang dibuat.
+    <div class="card">
+        <div class="card-body">
+            @if($reservasis->count() > 0)
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Jam</th>
+                                <th>Dokter</th>
+                                <th>Cabang</th>
+                                <th>Pemeriksaan</th>
+                                <th>Total Biaya</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($reservasis as $reservasi)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $reservasi->tanggal }}</td>
+                                <td>{{ $reservasi->jam }}</td>
+                                <td>Dr. {{ $reservasi->dokter->name }}</td>
+                                <td>{{ $reservasi->cabang->nama }}</td>
+                                <td>{{ $reservasi->pemeriksaan->nama_pemeriksaan }}</td>
+                                <td>Rp {{ number_format($reservasi->total, 0, ',', '.') }}</td>
+                                <td>
+                                    <span class="badge 
+                                        @if($reservasi->status == 'pending') bg-warning
+                                        @elseif($reservasi->status == 'confirmed') bg-success
+                                        @elseif($reservasi->status == 'selesai') bg-info
+                                        @else bg-danger @endif">
+                                        {{ ucfirst($reservasi->status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('pasien.reservasi.show', $reservasi->id) }}" 
+                                       class="btn btn-sm btn-info">Detail</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="text-center py-4">
+                    <p class="text-muted">Belum ada reservasi</p>
+                    <a href="{{ route('pasien.reservasi.create') }}" class="btn btn-primary">
+                        Buat Reservasi Pertama
+                    </a>
+                </div>
+            @endif
         </div>
-        <a href="{{ route('pasien.reservasi.create') }}" class="btn btn-primary">
-            + Buat Reservasi Baru
-        </a>
-    @else
-        <div class="mb-3 text-end">
-            <a href="{{ route('pasien.reservasi.create') }}" class="btn btn-primary">
-                + Buat Reservasi Baru
-            </a>
-        </div>
-
-        <table class="table table-bordered align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th>#</th>
-                    <th>Cabang</th>
-                    <th>Dokter</th>
-                    <th>Pemeriksaan</th>
-                    <th>Tanggal</th>
-                    <th>Jam</th>
-                    <th>Status</th>
-                    <th>Total</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($reservasis as $index => $r)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $r->cabang->nama_cabang ?? '-' }}</td>
-                        <td>{{ $r->dokter->name ?? '-' }}</td>
-                        <td>{{ $r->pemeriksaan->nama_pemeriksaan ?? '-' }}</td>
-                        <td>{{ $r->tanggal }}</td>
-                        <td>{{ $r->jam }}</td>
-                        <td>
-                            <span class="badge 
-                                @if($r->status == 'pending') bg-warning
-                                @elseif($r->status == 'selesai') bg-success
-                                @else bg-secondary @endif">
-                                {{ ucfirst($r->status) }}
-                            </span>
-                        </td>
-                        <td>Rp{{ number_format($r->total) }}</td>
-                        <td>
-                            <a href="{{ route('pasien.reservasi.show', $r->id) }}" class="btn btn-sm btn-info">
-                                Lihat
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
+    </div>
 </div>
-@endsection

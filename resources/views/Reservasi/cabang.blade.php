@@ -1,97 +1,78 @@
-@extends('layouts.index')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Pilih Cabang</h4>
+                    <small class="text-muted">Step 1 of 4</small>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('pasien.reservasi.dokter') }}" method="POST">
+                        @csrf
+                        
+                        <div class="row">
+                            @foreach($cabangs as $cabang)
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 cabang-card">
+                                    <input type="radio" name="cabang_id" id="cabang_{{ $cabang->id }}" 
+                                           value="{{ $cabang->id }}" class="d-none" 
+                                           {{ old('cabang_id') == $cabang->id ? 'checked' : '' }}>
+                                    <label for="cabang_{{ $cabang->id }}" class="card-body d-block cursor-pointer">
+                                        <h5 class="card-title">{{ $cabang->nama }}</h5>
+                                        <p class="card-text text-muted small">
+                                            <i class="fas fa-map-marker-alt"></i> 
+                                            {{ $cabang->alamat }}
+                                        </p>
+                                        <div class="text-primary mt-2">
+                                            <small>Pilih cabang ini →</small>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
 
-@section('konten')
-  <!-- Header -->
-  <div class="w-full bg-gradient-to-r from-[#FFE6E1] to-[#F0BAAF] shadow-md z-50 mt-[50px] p-8 min-h-[250px]">
-    <h1 class="font-['Istok_Web'] font-semibold text-5xl mt-[40px] text-[#C04C4C]">Gigiku Dental Clinic</h1>
-    <h2 class="font-['Istok_Web'] font-semibold text-[#C04C4C]">
-      Pilih cabang klinik yang ingin kamu kunjungi
-    </h2>
-  </div>
+                        @error('cabang_id')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 
-  <!-- Subjudul -->
-  <div class="w-full mt-[2px] p-8">
-    <h1 class="font-['Istok_Web'] font-semibold text-[#C04C4C] text-2xl">Pilih Cabang :</h1>
-  </div>
-
-  <!-- Daftar Cabang -->
-  <div class="max-w-7xl mx-auto px-4 py-4">
-    <div class="flex flex-col items-center gap-6">
-
-      <!-- Card 1 -->
-      <div class="cabang-card bg-[#F0BAAF] rounded-xl shadow-lg p-4 flex items-center w-[600px] h-36 transition ease-in-out duration-500 transform hover:scale-105">
-        <img src="https://i.pravatar.cc/150?img=3" 
-             alt="foto cabang" 
-             class="w-24 h-24 rounded-xl mr-4 ml-2">
-        <div class="flex flex-col justify-center">
-          <h3 class="text-[#C04C4C] font-semibold text-lg">GIGIKU Cabang Cikarang</h3>
-          <p class="text-gray-500 text-sm">Jl. Cendrawasih No. 45, Cirebon</p>
-          <button onclick="pilihCabang(this)" 
-                  class="mt-2 px-4 py-1 bg-[#C04C4C] text-white text-sm rounded hover:bg-[#a93d3d] w-fit">
-            Pilih
-          </button>
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ route('pasien.dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                Selanjutnya <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="cabang-card bg-[#F0BAAF] rounded-xl shadow-lg p-4 flex items-center w-[600px] h-36 transition ease-in-out duration-500 transform hover:scale-105">
-        <img src="https://i.pravatar.cc/150?img=4" 
-             alt="foto cabang" 
-             class="w-24 h-24 rounded-xl mr-4 ml-2">
-        <div class="flex flex-col justify-center">
-          <h3 class="text-[#C04C4C] font-semibold text-lg">GIGIKU Cabang Bandung</h3>
-          <p class="text-gray-500 text-sm">Jl. Merdeka No. 10, Bandung</p>
-          <button onclick="pilihCabang(this)" 
-                  class="mt-2 px-4 py-1 bg-[#C04C4C] text-white text-sm rounded hover:bg-[#a93d3d] w-fit">
-            Pilih
-          </button>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="cabang-card bg-[#F0BAAF] rounded-xl shadow-lg p-4 flex items-center w-[600px] h-36 transition ease-in-out duration-500 transform hover:scale-105">
-        <img src="https://i.pravatar.cc/150?img=5" 
-             alt="foto cabang" 
-             class="w-24 h-24 rounded-xl mr-4 ml-2">
-        <div class="flex flex-col justify-center">
-          <h3 class="text-[#C04C4C] font-semibold text-lg">GIGIKU Cabang Cirebon</h3>
-          <p class="text-gray-500 text-sm">Jl. Merdeka No. 10, Cirebon</p>
-          <button onclick="pilihCabang(this)" 
-                  class="mt-2 px-4 py-1 bg-[#C04C4C] text-white text-sm rounded hover:bg-[#a93d3d] w-fit">
-            Pilih
-          </button>
-        </div>
-      </div>
-
-      <!-- Tombol Selanjutnya -->
-      <div class="mt-8 flex justify-center">
-        <a href="2" 
-           id="btn-selanjutnya" 
-           class="w-[320px] mb-8 px-6 py-3 rounded-xl bg-gray-400 text-white text-lg text-center transition hover:opacity-80 cursor-not-allowed pointer-events-none">
-          Selanjutnya
-        </a>
-      </div>
-
     </div>
-  </div>
+</div>
 
-  <script>
-    function pilihCabang(button) {
-      // Reset semua kartu ke warna default
-      document.querySelectorAll('.cabang-card').forEach(card => {
-        card.classList.remove('bg-green-200');
-        card.classList.add('bg-[#F0BAAF]');
-      });
+<style>
+.cabang-card {
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
 
-      // Ubah kartu yang dipilih jadi hijau
-      const card = button.closest('.cabang-card');
-      card.classList.remove('bg-[#F0BAAF]');
-      card.classList.add('bg-green-200');
+.cabang-card:hover {
+    border-color: #007bff;
+    transform: translateY(-2px);
+}
 
-      // Aktifkan tombol selanjutnya
-      const btn = document.getElementById('btn-selanjutnya');
-      btn.classList.remove('bg-gray-400', 'cursor-not-allowed', 'pointer-events-none');
-      btn.classList.add('bg-[#C04C4C]', 'cursor-pointer');
-    }
-  </script>
-@endsection
+.cabang-card input[type="radio"]:checked + label {
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+}
+
+.cabang-card input[type="radio"]:checked + label .card-title {
+    color: #007bff;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+</style>

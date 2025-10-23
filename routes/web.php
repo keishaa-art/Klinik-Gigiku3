@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\PemeriksaanController;
 use App\Http\Controllers\Dokter\JadwalPraktekController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
+
 Route::get('/', function () {
     return view('home');
 });
@@ -60,7 +61,7 @@ Route::post('/email/verify-otp', function (Request $request) {
         return match ($user->role) {
             'Admin'   => redirect()->route('admin.dashboard')->with('info', 'Role ini tidak memerlukan verifikasi email.'),
             'Dokter'  => redirect()->route('dokter.dashboard')->with('info', 'Role ini tidak memerlukan verifikasi email.'),
-            'Farmasi' => redirect()->route('farmasi.dashboard')->with('info', 'Role ini tidak memerlukan verifikasi email.'),
+            'Farmasi' => redirect()->route('farmasi.dashboard')->with('info', 'Role ini t rouidak memerlukan verifikasi email.'),
             default   => redirect('/')->with('info', 'Role ini tidak memerlukan verifikasi email.'),
         };
     }
@@ -125,8 +126,22 @@ Route::middleware(['auth', 'FarmasiMiddleware'])->prefix('farmasi')->name('farma
 //! Pasien Routes
 Route::middleware(['auth', 'PasienMiddleware', 'ensure.otp.verified'])->prefix('pasien')->name('pasien.')->group(function () {
     Route::get('/', [PasienController::class, 'index'])->name('dashboard');
-    Route::resource('reservasi', ReservasiController::class);
-});
+
+        Route::get('reservasi/cabang', [ReservasiController::class, 'pilihCabang'])->name('reservasi.cabang');
+        Route::post('reservasi/dokter', [ReservasiController::class, 'pilihDokter'])->name('reservasi.dokter');
+        Route::post('reservasi/jadwal', [ReservasiController::class, 'pilihJadwal'])->name('reservasi.jadwal');
+        Route::post('reservasi/pemeriksaan', [ReservasiController::class, 'pilihPemeriksaan'])->name('reservasi.pemeriksaan');
+        
+        // AJAX routes
+        Route::get('reservasi/get-dokter/{cabangId}', [ReservasiController::class, 'getDokterByCabang']);
+        Route::get('reservasi/get-jadwal/{dokterId}/{cabangId}', [ReservasiController::class    , 'getJadwalByDokter']);
+        Route::post('reservasi/check-time', [ReservasiController::class, 'checkAvailableTime']);
+
+        Route::resource('reservasi', ReservasiController::class);
+    });
+
+
+
 
 
 

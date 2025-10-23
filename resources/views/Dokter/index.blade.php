@@ -2,7 +2,7 @@
 
 @section('konten')  
   <!-- Judul -->
-  <h1 class="text-3xl font-bold text-T2 mb-6">Jadwal Pemeriksaan</h1>
+  <h1 class="text-3xl font-bold text-T2 mb-6">Jadwal Praktek</h1>
   
   <div class="bg-white border-2 border-accent rounded-lg p-6 mb-6 shadow">
     {{-- Alert Pesan --}}

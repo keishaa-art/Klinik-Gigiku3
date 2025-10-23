@@ -125,6 +125,7 @@ Route::middleware(['auth', 'AdminMiddleware'])->prefix('admin')->name('admin.')-
 //! Dokter Routes
 Route::middleware(['auth', 'DokterMiddleware'])->prefix('dokter')->name('dokter.')->group(function () {
     Route::get('/', [DokterController::class, 'index'])->name('dashboard');
+    Route::resource('rekam', RekamMedisController::class);
     Route::resource('jadwalpraktek', JadwalPraktekController::class);
     Route::resource('profile', DokterController::class);
 });

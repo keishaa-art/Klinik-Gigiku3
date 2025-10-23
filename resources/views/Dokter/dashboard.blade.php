@@ -1,160 +1,198 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.dokter-layout')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Dokter - Klinik Gigiku</title>
-    <link rel="icon" href="{{ asset('storage/huntu.png') }}" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <script src="js/tailwindconfig.js"></script>
-</head>
+@section('konten')  
+ <!-- Konten -->
+  <h1 class="text-3xl font-bold text-T2 mb-6">Dashboard Dokter</h1>
+  
+  <!-- Tabs -->
+  <div class="bg-white border-2 border-accent rounded-lg p-6 mb-6 shadow">
+    <div class="relative border-b border-gray-200 mb-6">
+      <div id="tabButtons" class="flex gap-8">
+        <button onclick="showTab('jadwal', this)" class="tab-btn py-2 text-T2/60">Jadwal Reservasi</button>
+        <button onclick="showTab('profil', this)" class="tab-btn py-2 text-T2/60">Profil Dokter</button>
+      </div>
+      <!-- indikator garis bawah -->
+      <div id="tabIndicator" class="absolute bottom-0 h-[3px] bg-T2 transition-all duration-300"></div>
+    </div>
+    
+    <!-- Jadwal Reservasi -->
+    <div id="jadwal" class="tab-content">
+      <div class="bg-white border-2 border-accent rounded-lg p-6 mb-6 shadow">
+        <h2 class="text-2xl font-semibold text-T2 mb-4">Jadwal Reservasi</h2>
+        <table class="w-full text-left border">
+          <thead>
+            <tbody>
+            <tr class="bg-gradient-to-r from-soft to-accent text-T2">
+              <th class="p-2">Nama Pasien</th>
+              <th class="p-2">Tanggal</th>
+              <th class="p-2">Jam</th>
+              <th class="p-2">Layanan</th>
+            </tr>
+            <tr class="border-t">
+            </tr>
+          </thead>
+        </tbody>
+      </table>
+    </div>
+  </div>
+      
+      <!-- Profil Dokter -->
+<div id="profil" class="tab-content hidden">
+  <div class="bg-white border-2 border-accent rounded-2xl p-8 mb-6 shadow-xl">
 
-<body class="font-sans bg-white">
+    <!-- Header Profil -->
+    <div class="flex flex-col items-center text-center mb-10">
+      <div class="relative group">
+        <img 
+          src="{{ $dokter && $dokter->foto ? asset('storage/'.$dokter->foto) : asset('img/default-profile.png') }}"
+          alt="Foto Dokter"
+          class="w-40 h-40 rounded-full border-4 border-T1 object-cover shadow-md transition duration-300 group-hover:scale-105"
+        />
 
-    <!-- Sidebar -->
-    <aside id="sidebar"
-        class="fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-[#FFE6E1] to-[#F0BAAF] shadow-md transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50">
-        <div class="flex flex-col h-full">
-            <!-- Profil Dokter -->
-            <div class="flex flex-col items-center py-4 border-b border-[#C04C4C]/30">
-                <img src="https://i.pravatar.cc/80" alt="Profile"
-                    class="w-20 h-20 rounded-full border-4 border-white shadow-md">
-                <span class="mt-2 text-[#C04C4C] font-semibold">drg. Andini</span>
-            </div>
-            <!-- Menu -->
-            <nav class="flex-1 px-4 space-y-4 mt-4">
-                <a href="/" class="block text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Home</a>
-                <a href="#" class="block text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">About</a>
-                <a href="reservasi"
-                    class="block text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Reservasi</a>
-                <a href="#"
-                    class="block text-[#C04C4C] font-semibold hover:text-[#a93d3d] transition">Navigasi</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                        class="block w-full bg-white text-[#C04C4C] font-semibold px-4 py-1 rounded-lg shadow hover:bg-[#FFE6E1] transition text-center">
-                        Logout
-                    </button>
-                </form>
+        <!-- Ikon pensil -->
+        <a href="{{ route('dokter.profile.create') }}"
+          class="absolute bottom-2 right-2 bg-T1 text-white p-2 rounded-full shadow-md border-2 border-white 
+          hover:bg-opacity-90 transition transform hover:scale-110"
+          title="Ubah Foto Profil">
+          <i class='bx  bx-pencil'  ></i> 
+        </a>
+      </div>
 
-            </nav>
-        </div>
-    </aside>
+<!-- Nama + Spesialis dengan animasi glow -->
+<div class="text-center mt-6">
+  <h3 class="text-3xl font-bold bg-gradient-to-r from-T1 via-T2 to-accent bg-clip-text text-transparent 
+             animate-glow-pulse drop-shadow-md">
+    Drg. {{ $dokter->name ?? 'Nama Tidak Tersedia' }}
+  </h3>
+  <p class="mt-1 text-lg font-semibold text-T2/80 animate-pulse-slow">
+    {{ $dokter->spesialis ?? 'Dokter Umum' }}
+  </p>
+</div>
 
-    <!-- Tombol Toggle (Mobile) -->
-    <button id="menuToggle" class="md:hidden fixed top-4 left-4 bg-[#C04C4C] text-white p-2 rounded-lg z-50">
-        ☰
-    </button>
+<!-- Tambahkan CSS animasi di bawah -->
+<style>
+@keyframes glowPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(200, 90, 90, 0.4),
+                 0 0 20px rgba(200, 90, 90, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(200, 90, 90, 0.7),
+                 0 0 40px rgba(200, 90, 90, 0.4);
+  }
+}
+.animate-glow-pulse {
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
 
-    <!-- Konten -->
-    <main class="md:ml-64 p-6 pt-16 pb-20"> <!-- Tambah pb-20 agar tidak ketutupan footer -->
-        <h1 class="text-3xl font-bold text-[#C04C4C] mb-6">Dashboard Dokter</h1>
+@keyframes pulseSlow {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+.animate-pulse-slow {
+  animation: pulseSlow 3s ease-in-out infinite;
+}
+</style>
 
-        <!-- Tabs -->
-        <div class="flex gap-4 mb-6 flex-wrap">
-            <button onclick="showTab('jadwal')"
-                class="tab-btn bg-[#FFE6E1] text-[#C04C4C] px-4 py-2 rounded shadow hover:bg-[#F0BAAF]">Jadwal
-                Reservasi</button>
-            <button onclick="showTab('profil')"
-                class="tab-btn bg-[#FFE6E1] text-[#C04C4C] px-4 py-2 rounded shadow hover:bg-[#F0BAAF]">Profil
-                Dokter</button>
-            <button onclick="showTab('riwayat')"
-                class="tab-btn bg-[#FFE6E1] text-[#C04C4C] px-4 py-2 rounded shadow hover:bg-[#F0BAAF]">Riwayat
-                Pemeriksaan</button>
-        </div>
 
-        <!-- Jadwal Reservasi -->
-        <div id="jadwal" class="tab-content">
-            <div class="bg-[#FFE6E1] shadow-md rounded-lg p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-[#C04C4C] mb-4">Jadwal Reservasi</h2>
-                <table class="w-full text-left border">
-                    <thead>
-                        <tr class="bg-[#F0BAAF] text-white">
-                            <th class="p-2">Nama Pasien</th>
-                            <th class="p-2">Tanggal</th>
-                            <th class="p-2">Jam</th>
-                            <th class="p-2">Layanan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-t">
-                            <td class="p-2">Putri Lestari</td>
-                            <td class="p-2">10 Agustus 2025</td>
-                            <td class="p-2">10:00 WIB</td>
-                            <td class="p-2">Pembersihan Gigi</td>
-                        </tr>
-                        <tr class="border-t">
-                            <td class="p-2">Rizky Pratama</td>
-                            <td class="p-2">10 Agustus 2025</td>
-                            <td class="p-2">11:00 WIB</td>
-                            <td class="p-2">Tambal Gigi</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+      <div class="mt-3 flex items-center gap-2">
+        <span class="inline-block px-3 py-1 bg-soft text-T2 rounded-full text-xs font-semibold">
+          {{ $dokter->jenis_kelamin ?? '-' }}
+        </span>
+        <span class="inline-block px-3 py-1 bg-soft text-T2 rounded-full text-xs font-semibold">
+          {{ \Carbon\Carbon::parse($dokter->tgl_lahir)->format('d M Y') ?? '-' }}
+        </span>
+      </div>
+    </div>
 
-        <!-- Profil Dokter -->
-        <div id="profil" class="tab-content hidden">
-            <div class="bg-[#FFE6E1] shadow-md rounded-lg p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-[#C04C4C] mb-4">Profil Dokter</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <p><strong>Nama:</strong> drg. Andini Wulandari</p>
-                        <p><strong>Email:</strong> andini@example.com</p>
-                        <p><strong>Nomor HP:</strong> 08123456789</p>
-                    </div>
-                    <div>
-                        <p><strong>Spesialis:</strong> Konservasi Gigi</p>
-                        <p><strong>Pengalaman:</strong> 5 tahun</p>
-                        <p><strong>Cabang:</strong> Klinik Gigiku - Sudirman</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Info Dokter -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+  @php
+    $infoList = [
+      ['label' => '📧 Email', 'value' => $dokter->user->email ?? '-'],
+      ['label' => '📱 Nomor HP', 'value' => $dokter->no_telepon ?? '-'],
+      ['label' => '🏠 Alamat', 'value' => $dokter->alamat ?? '-'],
+      ['label' => '🏥 Cabang', 'value' => $dokter->cabang->nama ?? '-'],
+      ['label' => '🆔 NIP', 'value' => $dokter->nip ?? '-'],
+      ['label' => '⚕️ Spesialis', 'value' => $dokter->spesialis ?? '-'],
+    ];
+  @endphp
 
-        <!-- Riwayat Pemeriksaan -->
-        <div id="riwayat" class="tab-content hidden">
-            <div class="bg-[#FFE6E1] shadow-md rounded-lg p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-[#C04C4C] mb-4">Riwayat Pemeriksaan</h2>
-                <ul class="list-disc pl-5 space-y-2">
-                    <li>08 Agustus 2025 - Rina Ayu - Scaling</li>
-                    <li>06 Agustus 2025 - Dedi Saputra - Pencabutan Gigi</li>
-                    <li>05 Agustus 2025 - Maya Sari - Konsultasi</li>
-                </ul>
-            </div>
-        </div>
-    </main>
+  @foreach($infoList as $info)
+    <div 
+      class="bg-gradient-to-br from-soft to-accent text-T2 rounded-xl p-5 shadow-sm 
+             transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+      <p class="font-semibold text-sm text-gray-700">{{ $info['label'] }}</p>
+      <p class="text-base font-medium mt-1 break-words">{{ $info['value'] }}</p>
+    </div>
+  @endforeach
+</div>
 
-    <!-- Footer (fixed di bawah) -->
-    <footer class="fixed bottom-0 left-0 w-full md:ml-64 bg-[#C04C4C] text-white text-center py-4">
-        <p>&copy; 2025 by <span class="font-bold"> Gigiku Dental Clinic </span></p>
-    </footer>
 
-    <!-- Script -->
-    <script>
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-            document.getElementById(tabId).classList.remove('hidden');
-        }
-        document.addEventListener('DOMContentLoaded', () => showTab('jadwal'));
+    <!-- Tombol Edit -->
+    <div class="mt-10 text-center">
+      <a href="{{ route('dokter.profile.edit', $dokter->id) }}"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-T1 text-white font-semibold rounded-xl shadow 
+        hover:bg-opacity-90 hover:shadow-lg transition">
+        ✏️ Edit Profil
+      </a>
+    </div>
+  </div>
+</div>
 
-        // Toggle Sidebar Mobile
-        document.getElementById('menuToggle').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
-        });
-    </script>
+@endsection
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init();
-    </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const tabButtons = document.querySelectorAll("[data-tab]");
+  const tabContents = document.querySelectorAll(".tab-content");
+  const indicator = document.getElementById("tabIndicator");
 
-</body>
+  function activateTab(tabName) {
+    // Sembunyikan semua konten tab
+    tabContents.forEach((content) => content.classList.add("hidden"));
 
-</html>
+    // Reset gaya semua tombol
+    tabButtons.forEach((btn) => {
+      btn.classList.remove("text-T1", "font-bold");
+      btn.classList.add("text-T2/60");
+    });
+
+    // Tampilkan tab yang dipilih
+    const activeContent = document.getElementById(tabName);
+    if (activeContent) activeContent.classList.remove("hidden");
+
+    // Aktifkan tombol tab
+    const activeButton = document.querySelector(`[data-tab='${tabName}']`);
+    if (activeButton) {
+      activeButton.classList.add("text-T1", "font-bold");
+      activeButton.classList.remove("text-T2/60");
+
+      // Pindahkan indikator
+      indicator.style.width = activeButton.offsetWidth + "px";
+      indicator.style.left = activeButton.offsetLeft + "px";
+    }
+  }
+
+  // Baca parameter URL
+  const params = new URLSearchParams(window.location.search);
+  const activeTab = params.get("tab") || "jadwal"; // Default: jadwal
+
+  // Jalankan fungsi pertama kali
+  activateTab(activeTab);
+
+  // Tambahkan event click untuk setiap tombol
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tabName = btn.dataset.tab;
+      history.replaceState(null, "", `?tab=${tabName}`);
+      activateTab(tabName);
+    });
+  });
+});
+</script>

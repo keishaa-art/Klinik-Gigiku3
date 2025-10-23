@@ -15,6 +15,7 @@ use App\Http\Controllers\Farmasi\FarmasiController;
 use App\Http\Controllers\Admin\DataDokterController;
 use App\Http\Controllers\Admin\PemeriksaanController;
 use App\Http\Controllers\Dokter\JadwalPraktekController;
+use App\Http\Controllers\Admin\RekamMedisController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -26,9 +27,19 @@ Route::get('/navigasi', function () {
     return view('layouts.navigasi-informasi');
 })->name('navigasi');
 
+Route::get('/Profile', function () {
+    return view('layouts.profile-pasien');
+})->name('Profile');                        // minta tolong backend konfigurasiin ya :)
+
 Route::get('/about', function () {
     return view('about');
 });
+
+
+// Route::get('/rekam', function () {
+//     return view('admin/rekam/index');
+// });
+
 
 Route::get('/1', function () {
     return view('Reservatation/cabang');
@@ -99,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('jadwalpraktek', JadwalPraktekController::class);
+
 });
 
 
@@ -108,11 +120,14 @@ Route::middleware(['auth', 'AdminMiddleware'])->prefix('admin')->name('admin.')-
     Route::resource('pemeriksaan', PemeriksaanController::class);
     Route::resource('cabang', CabangController::class);
     Route::resource('dokter', DataDokterController::class);
+    Route::resource('rekam', RekamMedisController::class);
 });
 
 //! Dokter Routes
 Route::middleware(['auth', 'DokterMiddleware'])->prefix('dokter')->name('dokter.')->group(function () {
     Route::get('/', [DokterController::class, 'index'])->name('dashboard');
+    Route::resource('jadwalpraktek', JadwalPraktekController::class);
+    Route::resource('profile', DokterController::class);
 });
 
 //! Farmasi Routes

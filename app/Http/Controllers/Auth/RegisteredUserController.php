@@ -56,7 +56,7 @@ class RegisteredUserController extends Controller
         $user->pasien()->create([
             'name' => $request->name,
             'no_rm' => $no_rm,
-            'tgl_lahir' => $request->tgl_lahir,
+            'tgl_lahir' => $request->profile->tgl_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
             'no_telepon' => $request->no_telepon,
             'alamat' => $request->alamat,

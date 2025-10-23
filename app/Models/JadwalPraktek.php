@@ -1,4 +1,3 @@
-jadwalpraktek.model
 <?php
 
 namespace App\Models;
@@ -14,7 +13,7 @@ class JadwalPraktek extends Model
     use HasFactory;
 
     protected $table = 'jadwal_prakteks';
-    protected $fillable = ['user_id', 'cabang_id', 'tanggal', 'jam'];
+    protected $fillable = ['user_id','hari', 'cabang_id', 'tanggal', 'jam'];
 
     public function dokter()
     {

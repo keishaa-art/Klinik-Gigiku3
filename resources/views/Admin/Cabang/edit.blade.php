@@ -10,7 +10,7 @@
   <div class="w-full max-w-lg bg-white p-6 rounded-xl shadow-md">
 
     <!-- Judul -->
-    <h4 class="text-xl font-semibold text-gray-800 mb-6 text-center">
+    <h4 class="text-2xl font-bold text-[#C75E5E] text-center mb-6">
       Edit Data Cabang
     </h4>
 
@@ -39,12 +39,12 @@
 
       <!-- Tombol -->
       <div class="flex gap-3 pt-2">
-        <button type="submit"
-          class="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition">
-          Update
-        </button>
+       <button type="submit"
+                    class="flex-1 px-5 py-2 rounded-lg bg-[#C75E5E] hover:bg-[#a74b4b] text-white font-medium transition">
+                    Update
+                </button>
         <a href="{{ route('admin.cabang.index') }}"
-          class="px-4 py-2 rounded-lg bg-gray-400 text-white hover:bg-gray-500 shadow-sm transition">
+          class="flex-1 text-center px-5 py-2 rounded-lg bg-gray-400 text-white hover:bg-gray-500 shadow-sm transition">
           Kembali
         </a>
       </div>

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('rkm_medis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_pemeriksaan')->constrained('pemeriksaans')->onDelete('cascade');
-            $table->foreignId('id_dokter')->constrained('dokters')->onDelete('cascade');
-            $table->foreignId('id_pasien')->constrained('pasiens')->onDelete('cascade');
+            $table->foreignId('id_dokter')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_pasien')->constrained('users')->onDelete('cascade');
             $table->string('diagnosis')->nullable();
             $table->string('tindakan')->nullable();
             $table->date('tanggal');

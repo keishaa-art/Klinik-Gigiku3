@@ -11,7 +11,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Nama Pasien</label>
-                    <select name="pasien_id" class="form-select" required>
+                    <select name="id_pasien" class="form-select" required>
                         <option value="">-- Pilih Pasien --</option>
                         @foreach ($pasiens as $pasien)
                             <option value="{{ $pasien->id }}">{{ $pasien->name }}</option>
@@ -24,7 +24,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Pemeriksaan</label>
-                    <select name="pemeriksaan_id" class="form-select" required>
+                    <select name="id_pemeriksaan" class="form-select" required>
                         <option value="">-- Pilih Pemeriksaan --</option>
                         @foreach ($pemeriksaans as $p)
                             <option value="{{ $p->id }}">{{ $p->nama }} - Rp{{ number_format($p->harga, 0, ',', '.') }}</option>
@@ -37,7 +37,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Diagnosa</label>
-                    <input type="text" name="diagnosa" class="form-control" value="{{ old('diagnosa') }}" required>
+                    <input type="text" name="diagnosis" class="form-control" value="{{ old('diagnosa') }}" required>
                     @error('diagnosa')
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
@@ -58,10 +58,16 @@
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div class="text-end">
-                    <a href="{{ route('dokter.rekam.index') }}" class="btn btn-secondary">Batal</a>
-                    <button type="submit" class="btn btn-success">Simpan</button>
+       
+                <div class="flex justify-between items-center pt-4">
+                    <a href="{{ route('dokter.rekam.index') }}"
+                        class="px-5 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium transition">
+                        Kembali
+                    </a>
+                    <button type="submit"
+                        class="px-5 py-2 rounded-lg bg-[#C75E5E] hover:bg-[#a74b4b] text-white font-medium transition">
+                        Simpan
+                    </button>
                 </div>
             </form>
         </div>

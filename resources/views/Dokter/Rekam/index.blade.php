@@ -34,7 +34,7 @@
                         <th class="px-4 py-3 text-left">Pasien</th>
                         <th class="px-4 py-3 text-left">Dokter</th>
                         <th class="px-4 py-3 text-left">Pemeriksaan</th>
-                        <th class="px-4 py-3 text-left">Diagnosa</th>
+                        <th class="px-4 py-3 text-left">Diagnosis</th>
                         <th class="px-4 py-3 text-left">Tindakan</th>
                         <th class="px-4 py-3 text-left">Tanggal</th>
                         <th class="px-4 py-3 text-center rounded-tr-xl">Aksi</th>
@@ -47,7 +47,7 @@
                             <td class="px-4 py-3 font-medium text-gray-800">{{ $rekam->pasien->name ?? '-' }}</td>
                             <td class="px-4 py-3 text-gray-700">{{ $rekam->dokter->name ?? '-' }}</td>
                             <td class="px-4 py-3 text-gray-700">{{ $rekam->pemeriksaan->nama ?? '-' }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $rekam->diagnosa }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $rekam->diagnosis }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $rekam->tindakan }}</td>
                             <td class="px-4 py-3 text-gray-700">{{ \Carbon\Carbon::parse($rekam->tanggal)->format('d-m-Y') }}</td>
                             <td class="px-4 py-3 text-center">

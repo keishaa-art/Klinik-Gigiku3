@@ -84,18 +84,18 @@ class RekamMedisController extends Controller
         }
 
         $validated = $request->validate([
-            'pasien_id' => 'required|exists:users,id',
-            'pemeriksaan_id' => 'required|exists:pemeriksaans,id',
-            'diagnosa' => 'required|string|max:255',
+            'id_pasien' => 'required|exists:users,id',
+            'id_pemeriksaan' => 'required|exists:pemeriksaans,id',
+            'diagnosis' => 'required|string|max:255',
             'tindakan' => 'required|string|max:255',
             'tanggal' => 'required|date',
         ]);
 
         RekamMedis::create([
-            'id_pasien' => $validated['pasien_id'],
+            'id_pasien' => $validated['id_pasien'],
             'id_dokter' => $user->id,
-            'pemeriksaan_id' => $validated['pemeriksaan_id'],
-            'diagnosa' => $validated['diagnosa'],
+            'id_pemeriksaan' => $validated['id_pemeriksaan'],
+            'diagnosis' => $validated['diagnosis'],
             'tindakan' => $validated['tindakan'],
             'tanggal' => $validated['tanggal'],
         ]);

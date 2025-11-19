@@ -45,7 +45,7 @@ Route::get('/1', function () {
     return view('Reservatation/cabang');
 });
 Route::get('/2', function () {
-    return view('Reservatation/dokter');
+    return view('Reservatation/doktor');
 });
 Route::get('/3', function () {
     return view('Reservatation/jadwal');

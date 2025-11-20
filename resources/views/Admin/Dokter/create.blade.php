@@ -1,82 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
+//cfreate blade php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Dokter</title>
-</head>
+<!-- Container -->
+<div class="max-w-5xl mx-auto px-6 py-12">
 
-<body>
+    <!-- Form Card -->
+    <div class="bg-[#F0BAAF] rounded-xl shadow-lg p-8">
 
-    <h2>Tambah Data Dokter</h2>
+        <h3 class="text-2xl font-semibold text-[#C04C4C] mb-6">Form Tambah Dokter</h3>
 
-    <form action="{{ route('admin.dokter.store') }}" method="POST">
-        @csrf
+        <form action="{{ route('admin.dokter.store') }}" method="POST">
+            @csrf
 
-        <div>
-            <label for="user_id">Pilih Akun Dokter:</label>
-            <select name="user_id" id="user_id" required>
-                <option value="">-- Pilih Akun User --</option>
-                @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->email }}</option>
-                @endforeach
-            </select>
-        </div>
+            <!-- Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <div>
-            <label for="name">Nama Dokter:</label>
-            <input type="text" name="name" id="name" required>
-        </div>
+                <!-- User -->
+                <div>
+                    <label class="block font-semibold text-[#C04C4C] mb-1">Pilih Akun Dokter</label>
+                    <select name="user_id" required
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]">
+                        <option value="">-- Pilih Akun User --</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->email }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-        <div>
-            <label for="nip">NIP:</label>
-            <input type="text" name="nip" id="nip" required>
-        </div>
+                <!-- Nama -->
+                <div>
+                    <label class="block font-semibold text-[#C04C4C] mb-1">Nama Dokter</label>
+                    <input type="text" name="name" required
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]">
+                </div>
 
-        <div>
-            <label for="spesialis">Spesialis:</label>
-            <input type="text" name="spesialis" id="spesialis">
-        </div>
+                <!-- NIP -->
+                <div>
+                    <label class="block font-semibold text-[#C04C4C] mb-1">NIP</label>
+                    <input type="text" name="nip" required
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]">
+                </div>
 
-        <div>
-            <label for="tgl_lahir">Tanggal Lahir:</label>
-            <input type="date" name="tgl_lahir" id="tgl_lahir">
-        </div>
+                <!-- Spesialis -->
+                <div>
+                    <label class="block font-semibold text-[#C04C4C] mb-1">Spesialis</label>
+                    <input type="text" name="spesialis"
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]">
+                </div>
 
-        <div>
-            <label for="jenis_kelamin">Jenis Kelamin:</label>
-            <select name="jenis_kelamin" id="jenis_kelamin" required>
-                <option value="">-- Pilih --</option>
-                <option value="Laki-laki">Laki-laki</option>
-                <option value="Perempuan">Perempuan</option>
-            </select>
-        </div>
+                <!-- Tanggal Lahir -->
+                <div>
+                    <label class="block font-semibold text-[#C04C4C] mb-1">Tanggal Lahir</label>
+                    <input type="date" name="tgl_lahir"
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]">
+                </div>
 
-        <div>
-            <label for="no_telepon">No Telepon:</label>
-            <input type="text" name="no_telepon" id="no_telepon">
-        </div>
+                <!-- Jenis Kelamin -->
+                <div>
+                    <label class="block font-semibold text-[#C04C4C] mb-1">Jenis Kelamin</label>
+                    <select name="jenis_kelamin" required
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]">
+                        <option value="">-- Pilih --</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
 
-        <div>
-            <label for="alamat">Alamat Dokter:</label>
-            <textarea name="alamat" id="alamat"></textarea>
-        </div>
+                <!-- No Telepon -->
+                <div>
+                    <label class="block font-semibold text-[#C04C4C] mb-1">No Telepon</label>
+                    <input type="text" name="no_telepon"
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]">
+                </div>
 
-        <div>
-            <label for="cabang_id">Cabang:</label>
-            <select name="cabang_id" id="cabang_id" required>
-                <option value="">-- Pilih Cabang --</option>
-                @foreach ($cabangs as $cabang)
-                    <option value="{{ $cabang->id }}">{{ $cabang->nama_cabang }} - {{ $cabang->alamat }}</option>
-                @endforeach
-            </select>
-        </div>
+                <!-- Alamat -->
+                <div class="md:col-span-2">
+                    <label class="block font-semibold text-[#C04C4C] mb-1">Alamat</label>
+                    <textarea name="alamat" rows="3"
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]"></textarea>
+                </div>
 
-        <button type="submit">Simpan</button>
-        <a href="{{ route('admin.dokter.index') }}">Kembali</a>
-    </form>
+                <!-- Cabang -->
+                <div class="md:col-span-2">
+                    <label class="block font-semibold text-[#C04C4C] mb-1">Cabang</label>
+                    <select name="cabang_id" required
+                        class="w-full p-3 rounded-lg bg-white border border-gray-300 focus:ring-[#C04C4C] focus:border-[#C04C4C]">
+                        <option value="">-- Pilih Cabang --</option>
+                        @foreach ($cabangs as $cabang)
+                            <option value="{{ $cabang->id }}">{{ $cabang->nama_cabang }} - {{ $cabang->alamat }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
-</body>
+            <!-- Buttons -->
+            <div class="mt-8 flex gap-3">
 
-</html>
+                <!-- Button Simpan -->
+                <button type="submit"
+                    class="px-6 py-3 bg-[#C04C4C] text-white rounded-xl hover:bg-[#a93d3d] transition">
+                    Simpan
+                </button>
+
+                <!-- Kembali -->
+                <a href="{{ route('admin.dokter.index') }}"
+                    class="px-6 py-3 bg-gray-400 text-white rounded-xl hover:opacity-80 transition">
+                    Kembali
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@endsection

@@ -37,16 +37,16 @@ Route::get('/about', function () {
 
 
 Route::get('/1', function () {
-    return view('Reservatation/cabang');
+    return view('Reservasi/cabang');
 });
 Route::get('/2', function () {
-    return view('Reservatation/dokter');
+    return view('Reservasi/dokter');
 });
 Route::get('/3', function () {
-    return view('Reservatation/jadwal');
+    return view('Reservasi/jadwal');
 });
 Route::get('/4', function () {
-    return view('Reservatation/keluhan');
+    return view('Reservasi/keluhan');
 });
 
 // Route::get('/dashboard', function () {
